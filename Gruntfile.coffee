@@ -2,12 +2,12 @@ fs = require 'fs'
 module.exports = (grunt)-> 
   process.env.DEBUG = 'dust'
   grunt.initConfig
-    clean: ['src-temp', 'bin', 'test-bin']
+    clean: ['src-temp', 'bin', 'test-bin', 'test-temp']
     copy: 
       main:
         files: [expand: true, cwd: 'resource/', src: ['src'], dest: 'bin/']
       test:
-        files: [expand: true, cwd: 'test', src: ['fixtures/**', 'helper.ls'], dest: 'test-temp/']
+        files: [expand: true, cwd: 'test', src: ['**/fixture/*.ls'], dest: 'test-temp/']
     concat:
       src:
         options:
@@ -15,7 +15,7 @@ module.exports = (grunt)->
         files: [
           expand: true
           cwd: 'src'
-          src: ['**/*.ls']
+          src: ['**/*.ls', '!header.ls']
           dest: 'src-temp/'
           ext: '.ls'
         ]
@@ -40,12 +40,25 @@ module.exports = (grunt)->
           ext: '.js'
         ]
       test:
+        options: 
+          bare: true 
         files: [
           expand: true
           flatten: false
           cwd: 'test-temp/'
           src: ['**/*.ls']
           dest: 'test-bin'
+          ext: '.js'
+        ]
+      test_helper:
+        options:
+          bare: true
+        files: [
+          expand: true
+          flatten: true
+          cwd: 'test' 
+          src: ['helpers/*.ls', 'fixtures/schemas/*.ls']
+          dest: 'test-bin/'
           ext: '.js'
         ]
     watch:
@@ -82,8 +95,8 @@ module.exports = (grunt)->
   grunt.loadNpmTasks "grunt-concurrent"
   grunt.loadNpmTasks "grunt-contrib-copy"
 
-  grunt.registerTask "default", ["clean", "copy", "concat:src", "livescript",  'concurrent']
-  grunt.registerTask "test", ["copy", "concat:test", "livescript:test",  'simplemocha']
+  grunt.registerTask "default", ["clean", "copy", "concat", "livescript",  'concurrent']
+  grunt.registerTask "test", ["copy", "concat:test", "livescript:test", 'livescript:test_helper',  'simplemocha']
 
   grunt.event.on 'watch', (action, filepath)->
     console.log 'filepath: ', filepath
