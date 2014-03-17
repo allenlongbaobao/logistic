@@ -14,7 +14,8 @@
     "underscore": "*",
     "request": "^2.34.0",
     "JSV": "^4.0.2",
-    "async": "^0.2.10"
+    "async": "^0.2.10",
+    "passport": "^0.2.0"
   },
   "devDependencies": {
     "should": "~1.2.1",

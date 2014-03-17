@@ -1,6 +1,6 @@
 require! ['../controllers/users']
 module.exports = !(app)->
-  app.post '/login', users.login
+  app.post '/login', users.verify-request-data, users.login
   app.post '/register', users.register
 
   #TODO
