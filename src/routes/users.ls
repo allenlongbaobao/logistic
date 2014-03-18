@@ -1,7 +1,7 @@
 require! ['../controllers/users']
 module.exports = !(app)->
   app.post '/login', users.verify-request-data, users.login
-  app.post '/register', users.register
+  app.post '/register', users.verify-request-data, users.register
 
   #TODO
   #给电商的接口

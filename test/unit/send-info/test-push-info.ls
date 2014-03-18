@@ -72,6 +72,7 @@ describe "测试货物信息的推送: send-info", !->
     request-string-data = querystring.escape JSON.stringify request-data
     (err, res, body) <-! request.post url + "/?" + request-string-data
     res.status-code.should.eql 200
+    console.log body
     done!
 
 
