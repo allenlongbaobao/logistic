@@ -1,6 +1,7 @@
 goods =
   * _id: 'gid-1'
-    name: '测试货物1'
+    uid: 'uid-1'
+    name: '测试货物'
     information:
       * location:
           latitude: 123
